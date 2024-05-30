@@ -10,6 +10,7 @@ const ItemsList = ({ list, setList }) => {
   const [open, setOpen] = useState(false);
   const [id, setID] = useState("");
   const [updatedItem, setUpdatedItem] = useState("");
+  const [category, setCategory] = useState("Work");
 
   const deleteItem = (e) => {
     const updatedList = list.filter((item) => item.id !== e).reverse();
@@ -32,6 +33,7 @@ const ItemsList = ({ list, setList }) => {
     const updatedList = list.map((item) => {
       if (item.id === id) {
         item.value = updatedItem;
+        item.category = category;
       }
       return item;
     });
@@ -74,6 +76,13 @@ const ItemsList = ({ list, setList }) => {
           <div className="bg-[#252525] border border-white p-6 w-[300px] sm:w-[450px] rounded-lg">
             <h3 className="font-medium text-white text-2xl text-center mb-8">Edit Item</h3>
             <input value={updatedItem} onKeyDown={handleEnter} onChange={(e) => setUpdatedItem(e.target.value)} className="w-full outline-none bg-transparent border border-white p-2 rounded-lg focus:border-[#6C63FF] duration-200 text-white focus:placeholder:opacity-0 placeholder:duration-300 mb-8" type="text" placeholder="Edit Item" />
+            <h3 className="font-medium text-white text-xl mb-4">Category</h3>
+            <select onChange={(e) => setCategory(e.target.value)} className="mb-8 w-full text-center py-2 px-2 bg-[#6C63FF] hover:bg-[#5750cf] duration-200 cursor-pointer text-white font-medium outline-none rounded-lg">
+              <option value="Work">Work</option>
+              <option value="Educational">Educational</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Other">Other</option>
+            </select>
             <div className="flex justify-between">
               <button onClick={() => setOpen(false)} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg">
                 Cancel
