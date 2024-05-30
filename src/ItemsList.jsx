@@ -52,6 +52,7 @@ const ItemsList = ({ list, setList }) => {
           <div key={item.id} className="flex justify-between items-center border-b border-[#6C63FF] py-4">
             <h3 className="text-white font-medium text-xl capitalize">{item.value}</h3>
             <div className="flex items-center gap-2 text-lg text-white">
+              <p>{item.category}</p>
               <p className="">{item.date}</p>
               <button onClick={() => openModal(item)} className="hover:text-[#6C63FF] duration-200">
                 <i className="fa-solid fa-edit"></i>
