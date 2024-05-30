@@ -11,12 +11,14 @@ function App() {
   const [category, setCategory] = useState("");
 
   useEffect(() => {
-    if (category === "") {
-      setList(JSON.parse(localStorage.getItem("todos")).reverse());
-      return;
+    if (localStorage.getItem("todos")) {
+      if (category === "" && list.length !== 0) {
+        setList(JSON.parse(localStorage.getItem("todos")).reverse());
+        return;
+      }
+      const filteredList = JSON.parse(localStorage.getItem("todos")).filter((item) => item.category === category);
+      setList(filteredList.reverse());
     }
-    const filteredList = JSON.parse(localStorage.getItem("todos")).filter((item) => item.category === category);
-    setList(filteredList.reverse());
   }, [category]);
 
   useEffect(() => {
