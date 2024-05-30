@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("todos")) {
-      if (category === "" && list.length !== 0) {
+      if (category === "") {
         setList(JSON.parse(localStorage.getItem("todos")).reverse());
         return;
       }
