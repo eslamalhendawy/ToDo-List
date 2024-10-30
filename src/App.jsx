@@ -24,7 +24,7 @@ function App() {
         date: response.data[key].date,
       });
     }
-    let temp = fetchedList.reverse();
+    let temp = fetchedList;
     setList(temp);
     setTempList(temp);
   };
