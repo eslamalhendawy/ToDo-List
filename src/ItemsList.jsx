@@ -1,44 +1,39 @@
 import { useState } from "react";
 import Modal from "@mui/material/Modal";
+import axios from "axios";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import image from "/assets/emptyList.png";
 
-const ItemsList = ({ list, setList }) => {
+const ItemsList = ({ list }) => {
   const [open, setOpen] = useState(false);
-  const [id, setID] = useState("");
   const [updatedItem, setUpdatedItem] = useState("");
   const [category, setCategory] = useState("Work");
+  const [updatedName, setUpdatedName] = useState("");
 
-  const deleteItem = (e) => {
-    const updatedList = list.filter((item) => item.id !== e).reverse();
-    localStorage.setItem("todos", JSON.stringify(updatedList));
-    setList(updatedList);
+  const deleteItem = async (e) => {
+    await axios.delete(`https://to-do-list-a79dc-default-rtdb.europe-west1.firebasedatabase.app/list/${e}.json`);
     window.location.reload();
   };
 
   const openModal = (e) => {
     setOpen(true);
-    setID(e.id);
-    setUpdatedItem(e.value);
+    setUpdatedItem(e);
+    setUpdatedName(e.value);
   };
 
-  const editItem = () => {
-    if (updatedItem === "") {
+  const editItem = async () => {
+    if (updatedName === "") {
       toast.error("Please enter a value");
       return;
     }
-    const updatedList = list.map((item) => {
-      if (item.id === id) {
-        item.value = updatedItem;
-        item.category = category;
-      }
-      return item;
-    });
-    localStorage.setItem("todos", JSON.stringify(updatedList.reverse()));
-    window.location.reload();
+    const response = await axios.put(`https://to-do-list-a79dc-default-rtdb.europe-west1.firebasedatabase.app/list/${updatedItem.id}.json`, { value: updatedName, category, date: new Date().toISOString().split("T")[0] });
+    console.log(response);
+    if (response.status === 200) {
+      window.location.reload();
+    }
   };
 
   const handleEnter = (e) => {
@@ -75,7 +70,7 @@ const ItemsList = ({ list, setList }) => {
         <div className="w-screen h-screen flex justify-center items-center">
           <div className="bg-[#252525] border border-white p-6 w-[300px] sm:w-[450px] rounded-lg">
             <h3 className="font-medium text-white text-2xl text-center mb-8">Edit Item</h3>
-            <input value={updatedItem} onKeyDown={handleEnter} onChange={(e) => setUpdatedItem(e.target.value)} className="w-full outline-none bg-transparent border border-white p-2 rounded-lg focus:border-[#6C63FF] duration-200 text-white focus:placeholder:opacity-0 placeholder:duration-300 mb-8" type="text" placeholder="Edit Item" />
+            <input value={updatedName} onKeyDown={handleEnter} onChange={(e) => setUpdatedName(e.target.value)} className="w-full outline-none bg-transparent border border-white p-2 rounded-lg focus:border-[#6C63FF] duration-200 text-white focus:placeholder:opacity-0 placeholder:duration-300 mb-8" type="text" placeholder="Edit Item" />
             <h3 className="font-medium text-white text-xl mb-4">Category</h3>
             <select onChange={(e) => setCategory(e.target.value)} className="mb-8 w-full text-center py-2 px-2 bg-[#6C63FF] hover:bg-[#5750cf] duration-200 cursor-pointer text-white font-medium outline-none rounded-lg">
               <option value="Work">Work</option>
@@ -87,7 +82,7 @@ const ItemsList = ({ list, setList }) => {
               <button onClick={() => setOpen(false)} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg">
                 Cancel
               </button>
-              <button onClick={editItem} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg">
+              <button onClick={() => editItem()} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg">
                 Update
               </button>
             </div>

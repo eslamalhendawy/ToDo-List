@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
 import Modal from "@mui/material/Modal";
 
@@ -9,23 +10,21 @@ const AddItemModal = () => {
   const [open, setOpen] = useState(false);
   const [newItem, setNewItem] = useState("");
   const [category, setCategory] = useState("Work");
-  const [toDos, setToDos] = useState([]);
+  const url = "https://to-do-list-a79dc-default-rtdb.europe-west1.firebasedatabase.app/list.json";
 
-  useEffect(() => {
-    if (localStorage.getItem("todos")) {
-      setToDos(JSON.parse(localStorage.getItem("todos")));
-    }
-  }, []);
 
-  const addNewItem = () => {
+  const addNewItem = async () => {
     if (newItem === "") {
       toast.error("Please enter a value");
       return;
     }
-    setToDos([{ id: Math.random(), value: newItem, date: new Date().toISOString().split("T")[0] }, ...toDos ]);
-    localStorage.setItem("todos", JSON.stringify([...toDos, { id: Math.random(), value: newItem, category, date: new Date().toISOString().split("T")[0] }]));
-    setOpen(false);
-    window.location.reload();
+    const response = await axios.post(url, { value: newItem, category, date: new Date().toISOString().split("T")[0] });
+    console.log(response);
+    if (response.status === 200) {
+      window.location.reload();
+    } else {
+      toast.error("An error occurred");
+    }
   };
 
   const handleEnter = (e) => {

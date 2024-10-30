@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,30 +9,44 @@ import ItemsList from "./ItemsList";
 
 function App() {
   const [list, setList] = useState([]);
+  const [tempList, setTempList] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
 
-  useEffect(() => {
-    if (localStorage.getItem("todos")) {
-      if (category === "") {
-        setList(JSON.parse(localStorage.getItem("todos")).reverse());
-        return;
-      }
-      const filteredList = JSON.parse(localStorage.getItem("todos")).filter((item) => item.category === category);
-      setList(filteredList.reverse());
+  const fetchList = async () => {
+    const response = await axios.get("https://to-do-list-a79dc-default-rtdb.europe-west1.firebasedatabase.app/list.json");
+    const fetchedList = [];
+    for (const key in response.data) {
+      fetchedList.push({
+        id: key,
+        value: response.data[key].value,
+        category: response.data[key].category,
+        date: response.data[key].date,
+      });
     }
-  }, [category]);
+    let temp = fetchedList.reverse();
+    setList(temp);
+    setTempList(temp);
+  };
 
   useEffect(() => {
-    if (localStorage.getItem("todos")) {
-      setList(JSON.parse(localStorage.getItem("todos")).reverse());
-    }
+    fetchList();
   }, []);
+
+  useEffect(() => {
+    if (category === "") {
+      setList(tempList);
+      return;
+    }
+    const filteredList = tempList.filter((item) => item.category === category);
+    setList(filteredList);
+  }, [category]);
+
 
   const searchList = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
-      setList(JSON.parse(localStorage.getItem("todos")).reverse());
+      setList(tempList);
       return;
     }
     const filteredList = list.filter((item) => item.value.toLowerCase().includes(search.toLowerCase()));
