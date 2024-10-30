@@ -30,7 +30,6 @@ const ItemsList = ({ list }) => {
       return;
     }
     const response = await axios.put(`https://to-do-list-a79dc-default-rtdb.europe-west1.firebasedatabase.app/list/${updatedItem.id}.json`, { value: updatedName, category, date: new Date().toISOString().split("T")[0] });
-    console.log(response);
     if (response.status === 200) {
       window.location.reload();
     }

@@ -19,7 +19,6 @@ const AddItemModal = () => {
       return;
     }
     const response = await axios.post(url, { value: newItem, category, date: new Date().toISOString().split("T")[0] });
-    console.log(response);
     if (response.status === 200) {
       window.location.reload();
     } else {
