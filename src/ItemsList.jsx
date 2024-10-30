@@ -46,17 +46,19 @@ const ItemsList = ({ list }) => {
     <div className="lg:w-[70%] xl:w-[65%] md:mx-auto">
       {list.length != 0 ? (
         list.map((item) => (
-          <div key={item.id} className="flex justify-between items-center border-b border-[#6C63FF] py-4">
-            <h3 className="text-white font-medium text-xl capitalize">{item.value}</h3>
-            <div className="flex items-center gap-2 text-lg text-white">
+          <div key={item.id} className="flex flex-col sm:flex-row justify-between sm:items-center border-b border-[#6C63FF] py-4">
+            <h3 className="text-white font-medium text-xl capitalize mb-4 sm:mb-0">{item.value}</h3>
+            <div className="flex items-center gap-3 text-lg text-white">
               <p>{item.category}</p>
               <p className="">{item.date}</p>
-              <button onClick={() => openModal(item)} className="hover:text-[#6C63FF] duration-200">
-                <i className="fa-solid fa-edit"></i>
-              </button>
-              <button onClick={() => deleteItem(item.id)} className="hover:text-[#6C63FF] duration-200">
-                <i className="fa-solid fa-trash"></i>
-              </button>
+              <div className="flex items-center gap-6">
+                <button onClick={() => openModal(item)} className="hover:text-[#6C63FF] duration-200">
+                  <i className="fa-solid fa-edit"></i>
+                </button>
+                <button onClick={() => deleteItem(item.id)} className="hover:text-[#6C63FF] duration-200">
+                  <i className="fa-solid fa-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
         ))
