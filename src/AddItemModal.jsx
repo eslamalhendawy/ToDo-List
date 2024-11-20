@@ -47,6 +47,7 @@ const AddItemModal = () => {
               <option value="Work">Work</option>
               <option value="Educational">Educational</option>
               <option value="Entertainment">Entertainment</option>
+              <option value="Shopping">Shopping</option>
               <option value="Other">Other</option>
             </select>
             <div className="flex justify-between">
