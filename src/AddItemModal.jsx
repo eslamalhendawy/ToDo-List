@@ -52,10 +52,10 @@ const AddItemModal = () => {
               <option value="Other">Other</option>
             </select>
             <div className="flex justify-between">
-              <button onClick={() => setOpen(false)} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg">
+              <button onClick={() => setOpen(false)} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg cursor-pointer">
                 Cancel
               </button>
-              <button onClick={addNewItem} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg">
+              <button onClick={addNewItem} className="text-[#6C63FF] hover:text-white border-2 border-[#6C63FF] hover:bg-[#6C63FF] duration-200 py-2 w-[100px] rounded-lg cursor-pointer">
                 Add
               </button>
             </div>
